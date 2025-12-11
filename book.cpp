@@ -1,12 +1,18 @@
-#include "book.h"
-
-Book::Book(std::string t, std::string a, std::string i)
-    : title(t), author(a), isbn(i) {}
-
-Book::~Book() {
-    std::cout << "Usuwam ksiazke: " << title << std::endl;
-}
-
-std::string Book::getTitle() const { return title; }
-std::string Book::getAuthor() const { return author; }
-std::string Book::getIsbn() const { return isbn; }
+#ifndef BOOK
+#define BOOK
+#include <iostream>
+ 
+using namespace std;
+class Book{
+private:
+    string title;
+    string author;
+    string isbn;
+public:
+Book(string title, string author, string isbn):title(title),author(author),isbn(isbn){}
+~Book(){cout << "Destroying book: "<< title << endl;}
+string getTitle(){return title;}
+string getAuthor(){return author;}
+string getIsbn(){return isbn;}
+};
+#endif

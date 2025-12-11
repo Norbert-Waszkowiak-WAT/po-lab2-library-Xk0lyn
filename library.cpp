@@ -1,61 +1,47 @@
-#include "library.h"
+#ifndef LIBRARY
+#define LIBRARY
 #include <iostream>
-
-Library::Library() : books(nullptr), count(0) {}
-
-Library::~Library() {
-
-    for (int i = 0; i < count; i++) {
-        delete books[i];
-    }
-
-    
-    delete[] books;
-
-    std::cout << "Usuwam biblioteke" << std::endl;
-}
-
-void Library::addBook(Book* book) {
-    
-    Book** newArray = new Book*[count + 1];
-
-   
-    for (int i = 0; i < count; i++) {
-        newArray[i] = books[i];
-    }
-
-    
-    newArray[count] = book;
-
-   
-    delete[] books;
-
-   
-    books = newArray;
+#include "book.cpp"
+using namespace std;
+class Library {
+private:
+Book** books;
+int count;
+public:
+Library(): count(0), books(nullptr){}
+void addBook(Book* book){
     count++;
+    Book** newBooks = new Book*[count];
+    newBooks[count-1] = book;
+    for(int i = 0; i < count-1; i++){
+        newBooks[i] = books[i];
+    }
+    delete[] books;
+    books = newBooks;
 }
-
-void Library::removeBook(int index) {
-    if (index < 0 || index >= count) {
-        std::cout << "Bledny indeks!" << std::endl;
+void removeBook(int index){
+    if(index >= count || index < 0) {
+        cout<<"Invalid index"<<endl;
         return;
     }
-
-    
     delete books[index];
-
-    
-    for (int i = index; i < count - 1; i++) {
-        books[i] = books[i + 1];
+    for(int i = index; i < count-1; i ++){
+        books[i] = books [i+1];
     }
-
     count--;
 }
-
-Book** Library::getBooks() const {
+Book** getBooks(){
     return books;
 }
-
-int Library::getCount() const {
+int getCount() {
     return count;
 }
+~Library(){
+    for (int i = 0; i < count; i++){
+        delete books[i];
+    }
+    delete[] books;
+    cout<<"Library destroyed"<<endl;
+}
+};
+#endif
